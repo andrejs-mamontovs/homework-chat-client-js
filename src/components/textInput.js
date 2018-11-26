@@ -57,6 +57,7 @@ class TextInput extends PureComponent {
           onChange={this.onTextChangeHandler}
           onKeyPress={this.enterHandler}
           value={this.state.text}
+          placeholder="Enter text message"
         />
         <button className="send" onClick={this.onSendHandler}>
           Send
