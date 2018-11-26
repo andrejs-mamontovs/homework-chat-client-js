@@ -7,6 +7,20 @@ export const socket = openSocket(URI, {
   autoConnect: false
 });
 
+export const closeSocket = () => {
+  socket.off("connect");
+  socket.close();
+};
+
+export const openConnection = username => {
+  closeSocket();
+  socket.on("connect", () => {
+    socket.emit(LOGIN, { username });
+  });
+  socket.open();
+  socket.connect();
+};
+
 export const setupSocket = dispatch => {
   socket.on(INCOMMING_MESSAGE, data => {
     dispatch(incommingMessageAction(data.text, data.username));
@@ -15,9 +29,9 @@ export const setupSocket = dispatch => {
   socket.on(LOGIN, () => {
     dispatch(connectedStatusAction(true, null));
   });
+
   socket.on(LOGOFF, () => {
-    socket.off("connect");
-    socket.close();
+    closeSocket();
     dispatch(connectedStatusAction(false, "Idle timeout"));
   });
 

@@ -1,6 +1,7 @@
 import { takeEvery, select, call, put } from "redux-saga/effects";
-import { SEND_MESSAGE, LOGIN, URI } from "../constants";
+import { SEND_MESSAGE, LOGIN, URI, CONNECTED_STATUS } from "../constants";
 import { connectedStatusAction } from "../actions";
+import { openConnection, closeSocket } from "../sockets";
 
 const createSage = function*({ socket }) {
   yield takeEvery(SEND_MESSAGE, function*(action) {
@@ -16,14 +17,15 @@ const createSage = function*({ socket }) {
     const response = yield call(createUserCheckApiCall(username));
 
     if (response.status === "ok") {
-      socket.off("connect");
-      socket.on("connect", () => {
-        socket.emit(LOGIN, { username });
-      });
-      socket.open();
-      socket.connect();
+      openConnection(username);
     } else {
       yield put(connectedStatusAction(false, "User exists"));
+    }
+  });
+
+  yield takeEvery(CONNECTED_STATUS, action => {
+    if (!action.payload.connected) {
+      closeSocket();
     }
   });
 };
@@ -31,7 +33,6 @@ const createSage = function*({ socket }) {
 const createUserCheckApiCall = username => {
   return function() {
     const body = JSON.stringify({ username: username });
-    console.log("BODY:", body);
     return fetch(URI + "/exists", {
       method: "POST",
       mode: "cors",

@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, Fragment } from "react";
 import PropTypes from "prop-types";
 import "./components.css";
 import TextInput from "./textInput";
@@ -7,7 +7,8 @@ class ChatView extends PureComponent {
   static propTypes = {
     messages: PropTypes.arrayOf(PropTypes.shape({ text: PropTypes.string })),
     onSend: PropTypes.func,
-    connected: PropTypes.bool
+    connected: PropTypes.bool,
+    onCloseChat: PropTypes.func
   };
 
   static defaultProps = {
@@ -16,21 +17,32 @@ class ChatView extends PureComponent {
     connected: false
   };
 
+  onExitHandler = () => {
+    if (this.props.onCloseChat) {
+      this.props.onCloseChat();
+    }
+  };
+
   render() {
     if (!this.props.connected) {
       return null;
     }
     return (
-      <div className="root">
-        <div className="chat">
-          <ul>
-            {this.props.messages.map((item, index) => (
-              <Message key={index} {...item} />
-            ))}
-          </ul>
+      <Fragment>
+        <button className="send" onClick={this.onExitHandler}>
+          Exit
+        </button>
+        <div className="root">
+          <div className="chat">
+            <ul>
+              {this.props.messages.map((item, index) => (
+                <Message key={index} {...item} />
+              ))}
+            </ul>
+          </div>
+          <TextInput onSend={this.props.onSend} />
         </div>
-        <TextInput onSend={this.props.onSend} />
-      </div>
+      </Fragment>
     );
   }
 }

@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { sendMessageAction } from "../actions";
+import { sendMessageAction, connectedStatusAction } from "../actions";
 import ChatView from "../components/chatView";
 
 const stateToProps = state => {
@@ -11,7 +11,10 @@ const stateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onSend: text => dispatch(sendMessageAction(text))
+  onSend: text => dispatch(sendMessageAction(text)),
+  onCloseChat: () => {
+    dispatch(connectedStatusAction(false));
+  }
 });
 
 export default connect(

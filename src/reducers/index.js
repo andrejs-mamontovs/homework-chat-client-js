@@ -29,7 +29,9 @@ const chatReducer = (state = defaultState, action) => {
     case LOGIN:
       const { username } = action.payload;
       const error =
-        !username || username.trim().length === 0 ? "Nickname not set" : null;
+        !username || username.trim().length === 0
+          ? "Please enter nickname"
+          : null;
       return {
         ...state,
         user: { ...state.user, name: username, error: error }
