@@ -1,0 +1,93 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  border: solid 4px lightskyblue;
+  border-radius: 10px;
+  margin: 5px;
+  overflow: hidden;
+}
+
+.chat {
+  overflow-y: scroll;
+  height: 50vh;
+}
+
+.chat > ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chat > ul > li {
+  display: flex;
+  margin: 10px;
+  justify-content: flex-end;
+}
+
+.chat > ul > li.l {
+  justify-content: flex-start;
+}
+
+.chat > ul > li > div {
+  max-width: 50%;
+  border-radius: 4px;
+  background: lightskyblue;
+  padding: 10px;
+  text-align: left;
+}
+
+.send {
+  background: lightskyblue;
+  border: none;
+  padding: 5px;
+}
+
+.textInput {
+  background-color: silver;
+  padding: 10px;
+  display: flex;
+}
+
+.textInput > input {
+  flex: 1 1;
+  font-size: 12pt;
+}
+.textInput > input:focus,
+.textInput > button:focus {
+  outline: none;
+}
+
+.textInput > button {
+  background: lightskyblue;
+  border: none;
+  padding: 5px;
+}
+
+.input {
+  border: none;
+  padding: 5px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  flex: 1 0;
+  padding: 10px;
+  background-color: silver;
+}
+.form input,
+.form button {
+  font-size: 12pt;
+}
+
+.form input:focus,
+.form button:focus {
+  outline: none;
+}
+
+.errorPlaceholder {
+  color: red;
+}
